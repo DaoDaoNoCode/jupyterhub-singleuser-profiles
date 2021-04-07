@@ -13,7 +13,6 @@
       margin-top: var(--pf-global--spacer--sm);
     }
   }
-
   &__option-section {
     margin-top: var(--pf-global--spacer--lg);
     border-top: 1px solid var(--pf-global--BorderColor--100);
@@ -25,12 +24,10 @@
       margin-top: 0;
       border-top: 0;
     }
-
     &__title {
       align-items: center;
       display: flex;
       font-size: var(--pf-global--FontSize--lg);
-
       > svg {
         margin-left: var(--pf-global--spacer--xs);
       }
