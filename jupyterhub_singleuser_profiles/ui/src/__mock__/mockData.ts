@@ -14,6 +14,7 @@ type MockDataType = {
   ['size/Small']: SizeDescription;
   ['size/Medium']: SizeDescription;
   ['size/Large']: SizeDescription;
+  ['size/X Large']: SizeDescription;
   [UI_CONFIG_PATH]: UiConfigType;
   [DEFAULT_IMAGE_PATH]: string;
 };
@@ -353,6 +354,31 @@ export const mockData: MockDataType = {
       order: 100,
       url: 'https://github.com/thoth-station/s2i-tensorflow-notebook',
     },
+    {
+      description:
+        'Jupyter notebook image with minimal dependency set to start experimenting with Jupyter environment.',
+      url: 'https://github.com/thoth-station/s2i-minimal-notebook',
+      display_name: 'Minimal Python',
+      name: 's2i-minimal-notebook:latest',
+      content: {
+        dependencies: [
+          {
+            name: 'JupyterLab',
+            version: '3.0.14',
+          },
+          {
+            name: 'Notebook',
+            version: '6.3.0',
+          },
+        ],
+        software: [
+          {
+            name: 'Python',
+            version: 'v3.8.3',
+          },
+        ],
+      },
+    },
   ],
   ['size/Small']: {
     name: 'Small',
@@ -390,6 +416,19 @@ export const mockData: MockDataType = {
       requests: {
         cpu: 4,
         memory: '4Gi',
+      },
+    },
+  },
+  ['size/X Large']: {
+    name: 'X Large',
+    resources: {
+      limits: {
+        cpu: 30,
+        memory: '120Gi',
+      },
+      requests: {
+        cpu: 15,
+        memory: '120Gi',
       },
     },
   },

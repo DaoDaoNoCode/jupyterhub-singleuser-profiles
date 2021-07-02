@@ -12,11 +12,12 @@ import { WarningTriangleIcon } from '@patternfly/react-icons';
 import ImageForm from '../ImageForm/ImageForm';
 import SizesForm from '../SizesForm/SizesForm';
 import EnvVarForm from '../EnvVarForm/EnvVarForm';
-import { APIGet } from '../utils/APICalls';
-import { UI_CONFIG_PATH } from '../utils/const';
-import { UiConfigType } from '../utils/types';
+import { APIGet, getForUser } from '../utils/APICalls';
+import { CM_PATH, INSTANCE_PATH, UI_CONFIG_PATH } from '../utils/const';
+import { InstanceType, UiConfigType, UserConfigMapType } from '../utils/types';
 
 import './App.scss';
+import { fireTrackingEvent, initSegment } from 'utils/segmentIOUtils';
 
 const App: React.FC = () => {
   const [uiConfig, setUiConfig] = React.useState<UiConfigType>();
@@ -39,6 +40,35 @@ const App: React.FC = () => {
       cancelled = true;
     };
   }, []);
+  React.useEffect(() => {
+    APIGet(INSTANCE_PATH)
+      .then((data: InstanceType) => {
+        console.log(data);
+        const { segment_key, cluster_id } = data;
+        const targetUser = getForUser();
+        if (segment_key['segmentKey'] && cluster_id && targetUser) {
+          window.clusterID = data.cluster_id;
+          initSegment({ segmentKey: segment_key.segmentKey, username: targetUser });
+        }
+      })
+      .catch((e) => {
+        console.dir(e);
+      })
+  }, [])
+
+  const fireStartServerEvent = () => {
+    APIGet(CM_PATH)
+      .then((data: UserConfigMapType) => {
+        fireTrackingEvent('Notebook Server Started', {
+          GPU: data.gpu,
+          lastSelectedSize: data.last_selected_size,
+          lastSelectedImage: data.last_selected_image,
+        })
+      })
+      .catch((e) => {
+        console.dir(e);
+      })
+  }
 
   const renderContent = () => {
     if (configError) {
@@ -69,6 +99,7 @@ const App: React.FC = () => {
         <div className="jsp-spawner__buttons-bar">
           <input
             type="submit"
+            onClick={fireStartServerEvent}
             value="Start server"
             className="jsp-spawner__submit-button pf-c-button pf-m-primary"
           />

@@ -8,7 +8,7 @@ const getRequestPath = (target: string) => {
   return API_BASE_PATH + target;
 };
 
-const getForUser = () => {
+export const getForUser = () => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const jhdata = window.jhdata;
@@ -60,6 +60,7 @@ export const APIPost = (target: string, json: string): Promise<void> => {
   }
 
   if (MOCK_MODE) {
+    mockData[target] = {...mockData[target], ...JSON.parse(json)}
     return Promise.resolve();
   }
 
