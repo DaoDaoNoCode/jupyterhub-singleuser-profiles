@@ -48,7 +48,7 @@ const App: React.FC = () => {
         const targetUser = getForUser();
         if (segment_key['segmentKey'] && cluster_id && targetUser) {
           window.clusterID = data.cluster_id;
-          initSegment({ segmentKey: segment_key.segmentKey, username: targetUser });
+          initSegment({ segmentKey: segment_key['segmentKey'], username: targetUser });
         }
       })
       .catch((e) => {
@@ -111,7 +111,7 @@ const App: React.FC = () => {
   return (
     <div className="jsp-spawner">
       <div className="jsp-spawner__header">
-        <div className="jsp-spawner__header__title">Start a notebook server</div>
+        <div className="jsp-spawner__header__title">Start a notebook server, Hello</div>
         <div className="jsp-spawner__header__sub-title">
           Select options for your notebook server.
         </div>
