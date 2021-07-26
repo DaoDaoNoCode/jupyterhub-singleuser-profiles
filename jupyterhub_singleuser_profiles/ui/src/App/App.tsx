@@ -43,7 +43,6 @@ const App: React.FC = () => {
   React.useEffect(() => {
     APIGet(INSTANCE_PATH)
       .then((data: InstanceType) => {
-        console.log(data);
         const { segment_key, cluster_id } = data;
         const targetUser = getForUser();
         if (segment_key['segmentKey'] && cluster_id && targetUser) {
@@ -111,7 +110,7 @@ const App: React.FC = () => {
   return (
     <div className="jsp-spawner">
       <div className="jsp-spawner__header">
-        <div className="jsp-spawner__header__title">Start a notebook server, Hello</div>
+        <div className="jsp-spawner__header__title">Start a notebook server</div>
         <div className="jsp-spawner__header__sub-title">
           Select options for your notebook server.
         </div>
